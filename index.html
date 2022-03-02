@@ -20,11 +20,24 @@
       </div>
     </div>
     <div class="row">
+      <div class="col-md-12">
+        <div class="well">
+        <p>
+          It is sought through a given dataset to obtain a more complete vision of the bacteria that each explored subject has through graphs that summarize the information in an easy to understand and handle way, so we can make much more agile comparisons between subject and subject.
+        </p>
+      </div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-md-2">
         <div class="well">
           <h5>Test Subject ID No.:</h5>
           <!-- <select id="selDataset"></select> -->
           <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div>
+        <div class="well">
+          <h5>Select the graph:</h5>
+          <select id="selGraph" onchange="optionChartChanged()"></select>
         </div>
         <div class="panel panel-primary">
           <div class="panel-heading">
@@ -35,14 +48,30 @@
       </div>
       <div class="col-md-5">
         <div id="bar"></div>
+        <div class="well col-md-8 text-center" >
+        <p id="bar-text">
+          This graph seeks to represent the top 10 bacteria present
+          in each subject organized from largest to smallest. 
+        </p>
+      </div>
       </div>
       <div class="col-md-5">
         <div id="gauge"></div>
+        <div class="well col-md-8 text-center">
+          <p>
+            You simply want to visualize the frequency of washing and by means of colors it is determined in which place it is, from the optimal to the least optimal.
+          </p>
+        </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
+      <div class="well col-md-12">
         <div id="bubble"></div>
+        <div class="col-md-12 text-center">
+          <p id="bubble-text">
+            It seeks to represent all the bacteria present by each subject, depending on the value, a size is assigned to be graphed, and based on its ids, it is grouped by colors, so we could see the categories graphically.
+          </p>
+        </div>
       </div>
     </div>
   </div>

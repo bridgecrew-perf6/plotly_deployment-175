@@ -3,6 +3,7 @@ function init() {
   var selector = d3.select("#selDataset");
 
   // Use the list of sample names to populate the select options
+  optionChartChanged();
   d3.json("samples.json").then((data) => {
     var sampleNames = data.names;
 
@@ -30,6 +31,25 @@ function optionChanged(newSample) {
   
 }
 
+function optionChartChanged() {
+  
+  let selectorGraph = d3.select("#selGraph");
+  let listCharts = ['barchart', 'bubblechart', 'all'];
+  if (selectorGraph.node().length == 0) {
+    listCharts.forEach((chart) => {
+      selectorGraph
+        .append("option")
+        .text(chart)
+        .property("value", chart);
+    });
+  } else {
+    var id = d3.select("#selDataset").node().value;
+    buildMetadata(id);
+    buildCharts(id);
+  }
+
+}
+
 // Demographics Panel 
 function buildMetadata(sample) {
   d3.json("samples.json").then((data) => {
@@ -55,6 +75,7 @@ function buildMetadata(sample) {
 
 // 1. Create the buildCharts function.
 function buildCharts(sample) {
+  let chartChoice = d3.select("#selGraph").node().value;
   // 2. Use d3.json to load and retrieve the samples.json file 
   d3.json("samples.json").then((data) => {
     // 3. Create a variable that holds the samples array. 
@@ -97,7 +118,14 @@ function buildCharts(sample) {
     };
 
     // 10. Use Plotly to plot the data with the layout. 
-    Plotly.newPlot("bar", barData, barLayout);
+    if (chartChoice == 'barchart' || chartChoice == 'all') {
+      Plotly.newPlot("bar", barData, barLayout);
+    } else {
+      let elemento = document.getElementById("bar");
+      if (elemento.firstChild) {
+        elemento.removeChild(elemento.firstChild);
+      }
+    }
     // 1. Create the trace for the bubble chart.
     var bubbleData = [{
       x: otu_ids,
@@ -120,8 +148,14 @@ function buildCharts(sample) {
     };
     
     // 3. Use Plotly to plot the data with the layout.
-    Plotly.newPlot("bubble", bubbleData, bubbleLayout); 
-    console.log(wfreq)
+    if (chartChoice == 'bubblechart' || chartChoice == 'all') {
+      Plotly.newPlot("bubble", bubbleData, bubbleLayout);
+    } else {
+      let elemento = document.getElementById("bubble");
+      if (elemento.firstChild) {
+        elemento.removeChild(elemento.firstChild);
+      }
+    }
     // 4. Create the trace for the gauge chart.
     var gaugeData = [{
       mode: "gauge+number",
@@ -144,7 +178,7 @@ function buildCharts(sample) {
     // 5. Create the layout for the gauge chart.
     var gaugeLayout = { 
       title: { text: "Belly Button Washing Frequency", font: { size: 24 }},
-      margin: { t: 180, r: 25, l: 25, b: 130 },
+      margin: { t: 150, r: 25, l: 25, b: 130 },
       paper_bgcolor:"rgb(0,0,0,0)"
     };
 
